@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
 import { RedisModule } from './redis/redis.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { AppController } from './app.controller';
+import { JwtGuard } from './auth/guards/jwt.guard';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtStrategy } from './auth/strategy/jwt.strategy';
 
 const envFilePath =
   process.env.NODE_ENV === 'test' ? '.env.test' : '.env.development';
@@ -13,19 +18,31 @@ const envFilePath =
       isGlobal: true,
       envFilePath,
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'dictionary',
-      entities: [],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USER'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
+        synchronize: true,
+        autoLoadEntities: true,
+      }),
+      inject: [ConfigService],
     }),
     RedisModule,
+    UsersModule,
+    AuthModule,
+  ],
+  controllers: [AppController],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard,
+    },
+    JwtStrategy,
   ],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}
