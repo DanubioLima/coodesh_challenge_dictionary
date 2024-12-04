@@ -2,34 +2,31 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AppModule } from '../../src/app.module';
 import request from 'supertest';
-import { TestService } from '../test.service';
 import Redis from 'ioredis';
+import { User } from '../../src/users/user.entity';
+import { Repository } from 'typeorm';
 
 let app: INestApplication;
 let redis: Redis;
-let testService: TestService;
+let repository: Repository<User>;
 
 beforeEach(async () => {
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [AppModule],
-    providers: [TestService],
   }).compile();
 
   app = moduleFixture.createNestApplication();
   app.useGlobalPipes(new ValidationPipe());
-  testService = moduleFixture.get(TestService);
   redis = app.get<Redis>('REDIS_CLIENT');
 
-  await testService.runMigrations();
-  await testService.cleanDatabase();
+  repository = moduleFixture.get('UserRepository');
 
   await app.init();
 });
 
 afterEach(async () => {
-  await testService.cleanDatabase();
+  await repository.query(`DELETE FROM users;`);
   await redis.quit();
-  await testService.closeConnection();
   await app.close();
 });
 
