@@ -30,6 +30,7 @@ const envFilePath =
         database: configService.get('DB_NAME'),
         synchronize: true,
         autoLoadEntities: true,
+        logging: configService.get('DB_LOGGING'),
       }),
       inject: [ConfigService],
     }),
