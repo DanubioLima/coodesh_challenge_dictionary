@@ -8,6 +8,7 @@ import { AppController } from './app.controller';
 import { JwtGuard } from './auth/guards/jwt.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtStrategy } from './auth/strategy/jwt.strategy';
+import { DictionaryModule } from './dictionary/dictionary.module';
 
 const envFilePath =
   process.env.NODE_ENV === 'test' ? '.env.test' : '.env.development';
@@ -35,6 +36,7 @@ const envFilePath =
     RedisModule,
     UsersModule,
     AuthModule,
+    DictionaryModule,
   ],
   controllers: [AppController],
   providers: [
