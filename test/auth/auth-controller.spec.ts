@@ -2,12 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AppModule } from '../../src/app.module';
 import request from 'supertest';
-import Redis from 'ioredis';
 import { User } from '../../src/users/user.entity';
 import { Repository } from 'typeorm';
 
 let app: INestApplication;
-let redis: Redis;
 let repository: Repository<User>;
 
 beforeEach(async () => {
@@ -17,7 +15,6 @@ beforeEach(async () => {
 
   app = moduleFixture.createNestApplication();
   app.useGlobalPipes(new ValidationPipe());
-  redis = app.get<Redis>('REDIS_CLIENT');
 
   repository = moduleFixture.get('UserRepository');
 
@@ -26,7 +23,6 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await repository.query(`DELETE FROM users;`);
-  await redis.quit();
   await app.close();
 });
 
