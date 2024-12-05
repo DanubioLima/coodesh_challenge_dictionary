@@ -19,4 +19,11 @@ export class FavoritesService {
       },
     );
   }
+
+  public async deleteWord(userId: string, word: string) {
+    return await this.favoriteRepository.delete({
+      userId,
+      word,
+    });
+  }
 }

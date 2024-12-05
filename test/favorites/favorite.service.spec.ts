@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
-import { HistoryService } from '../../src/history/history.service';
 import { INestApplication } from '@nestjs/common';
 import { getOrmModule } from '../test-helpers';
 import { History } from '../../src/history/history.entity';
@@ -8,30 +7,30 @@ import { User } from '../../src/users/user.entity';
 import { FavoritesModule } from '../../src/favorites/favorites.module';
 import { FavoritesService } from '../../src/favorites/favorites.service';
 
-describe('FavoriteService', () => {
-  let app: INestApplication;
-  let service: HistoryService;
-  let repository: Repository<History>;
+let app: INestApplication;
+let service: FavoritesService;
+let repository: Repository<History>;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [FavoritesModule, getOrmModule()],
-    }).compile();
+beforeEach(async () => {
+  const moduleFixture: TestingModule = await Test.createTestingModule({
+    imports: [FavoritesModule, getOrmModule()],
+  }).compile();
 
-    app = moduleFixture.createNestApplication();
+  app = moduleFixture.createNestApplication();
 
-    repository = moduleFixture.get('FavoriteRepository');
-    service = moduleFixture.get(FavoritesService);
+  repository = moduleFixture.get('FavoriteRepository');
+  service = moduleFixture.get(FavoritesService);
 
-    await app.init();
-  });
+  await app.init();
+});
 
-  afterEach(async () => {
-    await repository.query(`DELETE FROM users;`);
-    await repository.query(`DELETE FROM favorites;`);
-    await app.close();
-  });
+afterEach(async () => {
+  await repository.query(`DELETE FROM users;`);
+  await repository.query(`DELETE FROM favorites;`);
+  await app.close();
+});
 
+describe('FavoriteService - addWord', () => {
   it('should save a new word as favorite', async () => {
     // ARRANGE
     const user = await insertUser();
@@ -71,16 +70,44 @@ describe('FavoriteService', () => {
     ]);
   });
 
-  async function insertUser() {
-    const result = await repository
-      .createQueryBuilder()
-      .insert()
-      .into(User)
-      .values({ name: 'john', email: 'john@gmail.com', password: 'password' })
-      .execute();
+  // async function insertUser() {
+  //   const result = await repository
+  //     .createQueryBuilder()
+  //     .insert()
+  //     .into(User)
+  //     .values({ name: 'john', email: 'john@gmail.com', password: 'password' })
+  //     .execute();
 
-    const user = result.generatedMaps[0];
+  //   const user = result.generatedMaps[0];
 
-    return user;
-  }
+  //   return user;
+  // }
 });
+
+describe('FavoriteService - deleteWord', () => {
+  it('should remove a word from favorite list', async () => {
+    // ARRANGE
+    const user = await insertUser();
+    await service.addWord(user.id, 'test');
+
+    // ACT
+    await service.deleteWord(user.id, 'test');
+
+    // ASSERT
+    const result = await repository.query(`SELECT * FROM favorites;`);
+    expect(result).toEqual([]);
+  });
+});
+
+async function insertUser() {
+  const result = await repository
+    .createQueryBuilder()
+    .insert()
+    .into(User)
+    .values({ name: 'john', email: 'john@gmail.com', password: 'password' })
+    .execute();
+
+  const user = result.generatedMaps[0];
+
+  return user;
+}

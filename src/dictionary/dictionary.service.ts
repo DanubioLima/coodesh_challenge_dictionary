@@ -56,4 +56,8 @@ export class DictionaryService {
 
     await this.favoritesService.addWord(userId, word);
   }
+
+  async deleteFavorite(userId: string, word: string) {
+    await this.favoritesService.deleteWord(userId, word);
+  }
 }
