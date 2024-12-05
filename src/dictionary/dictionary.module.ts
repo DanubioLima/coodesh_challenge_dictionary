@@ -5,9 +5,15 @@ import { Dictionary } from './dictionary.entity';
 import { DictionaryController } from './dictionary.controller';
 import { WordsModule } from '../words/words.module';
 import { HistoryModule } from '../history/history.module';
+import { FavoritesModule } from '../favorites/favorites.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Dictionary]), WordsModule, HistoryModule],
+  imports: [
+    TypeOrmModule.forFeature([Dictionary]),
+    WordsModule,
+    HistoryModule,
+    FavoritesModule,
+  ],
   providers: [DictionaryService],
   controllers: [DictionaryController],
 })

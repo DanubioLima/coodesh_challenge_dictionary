@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { DictionaryService } from './dictionary.service';
 import { PaginationResponse } from './dictionary.types';
 import { User as CurrentUser } from '../auth/decorators/user.decorator';
@@ -20,5 +20,10 @@ export class DictionaryController {
   @Get('/:word')
   async findOne(@CurrentUser() user: User, @Param('word') word: string) {
     return this.dictionaryService.getWord(user.id, word);
+  }
+
+  @Post('/:word/favorite')
+  async addFavorite(@CurrentUser() user: User, @Param('word') word: string) {
+    return this.dictionaryService.addFavorite(user.id, word);
   }
 }

@@ -18,6 +18,7 @@ import { redisStore } from 'cache-manager-redis-yet';
 import { Cache } from 'cache-manager';
 import { WordsModule } from './words/words.module';
 import { HistoryModule } from './history/history.module';
+import { FavoritesModule } from './favorites/favorites.module';
 
 const envFilePath =
   process.env.NODE_ENV === 'test' ? '.env.test' : '.env.development';
@@ -66,6 +67,7 @@ const envFilePath =
     DictionaryModule,
     WordsModule,
     HistoryModule,
+    FavoritesModule,
   ],
   controllers: [AppController],
   providers: [
