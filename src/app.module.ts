@@ -16,6 +16,8 @@ import {
 } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { Cache } from 'cache-manager';
+import { WordsModule } from './words/words.module';
+import { HistoryModule } from './history/history.module';
 
 const envFilePath =
   process.env.NODE_ENV === 'test' ? '.env.test' : '.env.development';
@@ -62,6 +64,8 @@ const envFilePath =
     UsersModule,
     AuthModule,
     DictionaryModule,
+    WordsModule,
+    HistoryModule,
   ],
   controllers: [AppController],
   providers: [

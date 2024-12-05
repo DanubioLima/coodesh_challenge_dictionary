@@ -5,30 +5,41 @@ import { Dictionary } from '../../src/dictionary/dictionary.entity';
 import { DictionaryModule } from '../../src/dictionary/dictionary.module';
 import { INestApplication } from '@nestjs/common';
 import { getOrmModule } from '../test-helpers';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { User } from '../../src/users/user.entity';
+import nock from 'nock';
 
-describe('DictionaryService', () => {
-  let app: INestApplication;
-  let service: DictionaryService;
-  let repository: Repository<Dictionary>;
+let app: INestApplication;
+let service: DictionaryService;
+let configService: ConfigService;
+let repository: Repository<Dictionary>;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [DictionaryModule, getOrmModule()],
-    }).compile();
+beforeEach(async () => {
+  const moduleFixture: TestingModule = await Test.createTestingModule({
+    imports: [
+      DictionaryModule,
+      ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.test' }),
+      getOrmModule(),
+    ],
+  }).compile();
 
-    app = moduleFixture.createNestApplication();
+  app = moduleFixture.createNestApplication();
 
-    repository = moduleFixture.get('DictionaryRepository');
-    service = moduleFixture.get(DictionaryService);
+  repository = moduleFixture.get('DictionaryRepository');
+  service = moduleFixture.get(DictionaryService);
+  configService = moduleFixture.get(ConfigService);
 
-    await app.init();
-  });
+  await app.init();
+});
 
-  afterEach(async () => {
-    await repository.query(`DELETE FROM dictionary;`);
-    await app.close();
-  });
+afterEach(async () => {
+  await repository.query(
+    `DELETE FROM dictionary; DELETE FROM users; DELETE FROM history;`,
+  );
+  await app.close();
+});
 
+describe('DictionaryService - findAll', () => {
   it('should return paginated results', async () => {
     await insertWords(['test1', 'test2']);
 
@@ -59,5 +70,45 @@ describe('DictionaryService', () => {
 
   function insertWords(words: string[]) {
     return Promise.all(words.map((word) => repository.insert({ word })));
+  }
+});
+
+describe('DictionaryService - getWord', () => {
+  it('should return word data and save visualized word in story', async () => {
+    // ARRANGE
+    const user = await insertUser();
+
+    nock(configService.get('WORDS_API_URL'))
+      .get('/v2/entries/en/test')
+      .reply(200, { word: 'test' });
+
+    // ACT
+    const response = await service.getWord(user.id, 'test');
+
+    // ASSERT
+    expect(response).toEqual({ word: 'test' });
+
+    const history = await repository.query(`SELECT * FROM history`);
+    expect(history).toEqual([
+      {
+        id: expect.any(String),
+        user_id: user.id,
+        word: 'test',
+        added: expect.any(Date),
+      },
+    ]);
+  });
+
+  async function insertUser() {
+    const result = await repository
+      .createQueryBuilder()
+      .insert()
+      .into(User)
+      .values({ name: 'john', email: 'john@gmail.com', password: 'password' })
+      .execute();
+
+    const user = result.generatedMaps[0];
+
+    return user;
   }
 });

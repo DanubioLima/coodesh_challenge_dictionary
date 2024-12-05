@@ -3,12 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Dictionary } from './dictionary.entity';
 import { Repository, ILike } from 'typeorm';
 import { PaginationResponse } from './dictionary.types';
+import { WordsService } from '../words/words.service';
+import { HistoryService } from '../history/history.service';
 
 @Injectable()
 export class DictionaryService {
   constructor(
     @InjectRepository(Dictionary)
     private dictionaryRepository: Repository<Dictionary>,
+    private readonly wordsService: WordsService,
+    private readonly historyService: HistoryService,
   ) {}
 
   async findAll(
@@ -31,5 +35,13 @@ export class DictionaryService {
       hasNext: page * limit < totalDocs,
       hasPrev: page > 1,
     };
+  }
+
+  async getWord(userId: string, word: string) {
+    const response = await this.wordsService.getWord(word);
+
+    await this.historyService.addWord(userId, word);
+
+    return response;
   }
 }
