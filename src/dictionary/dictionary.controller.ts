@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { DictionaryService } from './dictionary.service';
-import { PaginationResponse } from './dictionary.types';
+import { PaginationResponse } from '../common/common.types';
 import { User as CurrentUser } from '../auth/decorators/user.decorator';
 import { User } from '../users/user.entity';
 

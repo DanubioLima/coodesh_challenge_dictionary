@@ -2,7 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Dictionary } from './dictionary.entity';
 import { Repository, ILike } from 'typeorm';
-import { PaginationResponse } from './dictionary.types';
+import { PaginationResponse } from '../common/common.types';
 import { WordsService } from '../words/words.service';
 import { HistoryService } from '../history/history.service';
 import { FavoritesService } from '../favorites/favorites.service';
