@@ -53,11 +53,11 @@ const envFilePath =
             host: configService.get('REDIS_HOST'),
             port: configService.get('REDIS_PORT'),
           },
+          ttl: 180000,
         });
 
         return {
           store: store as unknown as CacheStore,
-          ttl: 3 * 60000, // 3 minutes (milliseconds),
         };
       },
       inject: [ConfigService],
