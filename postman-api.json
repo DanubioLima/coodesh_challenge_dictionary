@@ -1,0 +1,373 @@
+{
+  "info": {
+    "name": "Coodesh Namu Teste",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Buscar palavra",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZW1haWwuY29tIiwiaWQiOiIyM2E4MDYyNS03NGZjLTQzNTAtYmNkYi0wNjMzNzhmMzIyMjIiLCJpYXQiOjE3MzMzNjQ4MTQsImV4cCI6MTczMzM2ODQxNH0.yIh07GRqF5lglws7qcZDVN9rC86D98NmIUeD_JCN-sY",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/entries/en/hospital",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "entries",
+            "en",
+            "hospital"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Buscar perfil próprio",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZW1haWwuY29tIiwiaWQiOiIyM2E4MDYyNS03NGZjLTQzNTAtYmNkYi0wNjMzNzhmMzIyMjIiLCJpYXQiOjE3MzMzNjQ4MTQsImV4cCI6MTczMzM2ODQxNH0.yIh07GRqF5lglws7qcZDVN9rC86D98NmIUeD_JCN-sY",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/user/me",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "user",
+            "me"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Criar conta",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": null,
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/auth/signup",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "auth",
+            "signup"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"danubio\",\n  \"email\": \"danubio@email.com\",\n  \"password\": \"danubio\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Fazer login",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": null,
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/auth/signin",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "auth",
+            "signin"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"example@email.com\",\n  \"password\": \"password\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Listar palavras",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZW1haWwuY29tIiwiaWQiOiIyM2E4MDYyNS03NGZjLTQzNTAtYmNkYi0wNjMzNzhmMzIyMjIiLCJpYXQiOjE3MzMzNTMzMzksImV4cCI6MTczMzM1NjkzOX0.sOr0iNWavY5ngwN3teBZTnYMT_79UTTWYUHGuqU1cd8",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/entries/en?search=fisi&limit=15&page=2",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "entries",
+            "en"
+          ],
+          "query": [
+            {
+              "key": "search",
+              "value": "fisi"
+            },
+            {
+              "key": "limit",
+              "value": "15"
+            },
+            {
+              "key": "page",
+              "value": "2"
+            }
+          ],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Root",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": null,
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "Favoritar palavra",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZW1haWwuY29tIiwiaWQiOiIyM2E4MDYyNS03NGZjLTQzNTAtYmNkYi0wNjMzNzhmMzIyMjIiLCJpYXQiOjE3MzM0NTM0MzYsImV4cCI6MTczMzQ1NzAzNn0.GUSEHn4MvvPB2zamzVZOGtfVhHrDP0zMrt6fLylL--Q",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/entries/en/:word/favorite",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "entries",
+            "en",
+            ":word",
+            "favorite"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "key": "word",
+              "value": "bob"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"example@email.com\",\n  \"password\": \"password\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Remover dos favoritos",
+      "event": [],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZW1haWwuY29tIiwiaWQiOiIyM2E4MDYyNS03NGZjLTQzNTAtYmNkYi0wNjMzNzhmMzIyMjIiLCJpYXQiOjE3MzM0MjczMTIsImV4cCI6MTczMzQzMDkxMn0.2trqg0nFVXtPvyB2JBnGNKXwpsc54bKRtnEIhKyDqQU",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/entries/en/:word/unfavorite",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "entries",
+            "en",
+            ":word",
+            "unfavorite"
+          ],
+          "query": [],
+          "variable": [
+            {
+              "key": "word",
+              "value": "car"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"example@email.com\",\n  \"password\": \"password\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Listar palavras visitadas",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZW1haWwuY29tIiwiaWQiOiIyM2E4MDYyNS03NGZjLTQzNTAtYmNkYi0wNjMzNzhmMzIyMjIiLCJpYXQiOjE3MzM0NTM0MzYsImV4cCI6MTczMzQ1NzAzNn0.GUSEHn4MvvPB2zamzVZOGtfVhHrDP0zMrt6fLylL--Q",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/user/me/history?limit=15&page=1",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "user",
+            "me",
+            "history"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "15"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            }
+          ],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Listar palavras favoritas",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAZW1haWwuY29tIiwiaWQiOiIyM2E4MDYyNS03NGZjLTQzNTAtYmNkYi0wNjMzNzhmMzIyMjIiLCJpYXQiOjE3MzM0NTM0MzYsImV4cCI6MTczMzQ1NzAzNn0.GUSEHn4MvvPB2zamzVZOGtfVhHrDP0zMrt6fLylL--Q",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:3000/user/me/favorites?limit=15&page=1",
+          "protocol": "http",
+          "host": [
+            "localhost:3000"
+          ],
+          "path": [
+            "user",
+            "me",
+            "favorites"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "15"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            }
+          ],
+          "variable": []
+        }
+      }
+    }
+  ],
+  "variable": []
+}
