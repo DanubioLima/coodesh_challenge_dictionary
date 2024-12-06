@@ -8,17 +8,13 @@ import { JwtGuard } from './auth/guards/jwt.guard';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtStrategy } from './auth/strategy/jwt.strategy';
 import { DictionaryModule } from './dictionary/dictionary.module';
-import {
-  CACHE_MANAGER,
-  CacheInterceptor,
-  CacheModule,
-  CacheStore,
-} from '@nestjs/cache-manager';
+import { CACHE_MANAGER, CacheModule, CacheStore } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { Cache } from 'cache-manager';
 import { WordsModule } from './words/words.module';
 import { HistoryModule } from './history/history.module';
 import { FavoritesModule } from './favorites/favorites.module';
+import { HttpCacheInterceptor } from './interceptors/http-cache.interceptor';
 
 const envFilePath =
   process.env.NODE_ENV === 'test' ? '.env.test' : '.env.development';
@@ -77,7 +73,7 @@ const envFilePath =
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
+      useClass: HttpCacheInterceptor,
     },
     JwtStrategy,
   ],
